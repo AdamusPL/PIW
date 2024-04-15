@@ -27,3 +27,21 @@
     align-items: center;
     column-gap: 8px;
 }
+
+.heart{
+    width: 20px;
+}
+
+.card-image {
+    width: 100%;
+    border-radius: var(--radius-small);
+    height: 150px;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: cover;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+    padding: 1rem;
+}
