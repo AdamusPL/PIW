@@ -3,6 +3,10 @@
     color: gray;
 }
 
+#items-list{
+  list-style-type: none;
+}
+
 #middle{
   text-align: center;
 }
