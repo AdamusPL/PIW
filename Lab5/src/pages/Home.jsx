@@ -1,13 +1,16 @@
 import { HotelInfoHome } from '../components/HotelInfoHome.jsx';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import arrow from '/images/Arrow.svg';
 import logo from '/images/logo.svg'
-import hotelsIndex from '../dataIndex.js';
+import { useHotels } from '../context/HotelsContext.jsx';
 import { UserAuth } from '../context/AuthContext'
 import { signOut } from 'firebase/auth';
+import "../css/index.css"
 
 export function Home() {
   const {user, logOut} = UserAuth();
+
+  const { hotels } = useHotels();
 
   const handleSignOut = async () => {
     try{
@@ -18,6 +21,12 @@ export function Home() {
     } catch (error){
       console.error(error);
     }
+  }
+
+  const navigate = useNavigate();
+
+  const handleClickFindMore = () => {
+    navigate('/browse');
   }
 
   return (
@@ -55,7 +64,7 @@ export function Home() {
         <input class="searchbar" placeholder="Search by hotel name, place etc." />
         <section class="grid hotel-cards">
 
-      {hotelsIndex.map((hotel) => (
+      {hotels.map((hotel) => (
         <HotelInfoHome
         key = {hotel.key}
         location = {hotel.location}
@@ -67,14 +76,14 @@ export function Home() {
       ))}
 
     </section>
-    <button class="button secondary">Find more <img src={arrow} /></button>
+    <button class="button secondary" onClick={handleClickFindMore}>Find more <img src={arrow} /></button>
     </section>
     <section id="rent" class="footer grid">
         <div class="card-image"></div>
         <article class="footer-details">
             <p class="title-large">Rent with us!</p>
             <p class="text-middle">If you’re a hotel or an apartament owner who’s looking to reach more customers you can now rent your property with TranquilTravels. </p>
-            <button class="button secondary">Learn more <img src={arrow} /></button>
+            <button class="button secondary" onClick={handleClickFindMore}>Learn more <img src={arrow} /></button>
         </article>
     </section>
     </>

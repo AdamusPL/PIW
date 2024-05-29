@@ -15,7 +15,7 @@ export const HotelsProvider = ({ children }) => {
     const fetchHotels = async () => {
       try {
         const querySnapshot = await getDocs(collection(firestore, "hotels"));
-        const hotels = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
+        const hotels = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data(), isFavorite: false}));
         const sortedHotels = [...hotels].sort((a, b) => a.id - b.id);
         setHotels(sortedHotels);
       } catch (error) {

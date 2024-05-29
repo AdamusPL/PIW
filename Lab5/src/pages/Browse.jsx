@@ -2,12 +2,13 @@ import logo from '/images/logo.svg'
 import arrow from '/images/Arrow.svg'
 import { Link } from 'react-router-dom';
 import { UserAuth } from '../context/AuthContext';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import heart from '/images/heart.png'
 import filledHeart from '/images/heart_filled.png'
 import { FavoritesContext } from '../context/FavoritesContext';
 import { useHotels } from '../context/HotelsContext';
+import "../css/browse.css"
 
 export function Browse() {
   const {user, logOut} = UserAuth();
@@ -20,7 +21,32 @@ export function Browse() {
     }
   }
 
-  const { hotels } = useHotels();
+  const { hotels, setHotels } = useHotels();
+
+  useEffect(() => {
+    if (hotels) {
+      const root = document.documentElement;
+      hotels.forEach((hotel, i) => {
+        root.style.setProperty(`--image-path${i+1}`, `url(${hotel.imgHotelPath})`);
+      });
+
+      const items = {...localStorage};
+      if(items){
+      for(var i = 0; i < Object.keys(items).length; i++){
+        if (!isNaN(parseInt(Object.keys(items)[i]))) {
+          const id = parseInt(Object.keys(items)[i]);
+          if(hotels[id-1]){
+            hotels[id-1].isFavorite = true;
+          }
+        }
+        }
+      }
+      
+    }
+
+    setHotels(hotels);
+
+  }, [hotels]);
 
   const navigate = useNavigate();
 
@@ -29,6 +55,8 @@ export function Browse() {
   }
 
   const { removeOrAddToFavorites } = useContext(FavoritesContext);
+
+  console.log(hotels);
 
   return (
     <>

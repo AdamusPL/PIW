@@ -6,21 +6,34 @@ import { UserAuth } from '../context/AuthContext';
 import heart from '/images/heart.png'
 import filledHeart from '/images/heart_filled.png'
 import arrow from '/images/Arrow.svg'
+import "../css/favorites.css"
 
 export function Favorites() {
   const { user, logOut } = UserAuth();
   const [favoriteHotels, setFavoriteHotels] = useState([]);
 
   useEffect(() => {
+    if (favoriteHotels) {
+      const root = document.documentElement;
+      favoriteHotels.forEach((hotel, i) => {
+        root.style.setProperty(`--image-path${i+1}`, `url(${hotel.imgHotelPath})`);
+      });
+    }
+  }, [favoriteHotels]);
+
+  useEffect(() => {
+    const items = {...localStorage};
     const favorites = [];
-    for (let i = 1; i < 100; i++) {
-      const hotel = localStorage.getItem(i);
-      if (hotel) {
+
+    for(var i = 0; i < Object.keys(items).length; i++){
+      if (!isNaN(parseInt(Object.keys(items)[i]))) {
+        const hotel = Object.values(items)[i];
         favorites.push(JSON.parse(hotel));
       }
     }
+    
     setFavoriteHotels(favorites);
-
+    
   }, []);
 
   const handleSignOut = async () => {
@@ -32,6 +45,15 @@ export function Favorites() {
   };
 
   const { removeOrAddToFavorites } = useContext(FavoritesContext);
+
+  const handleRemoveFromFavorites = (hotelId) => {
+    removeOrAddToFavorites(hotelId);
+    setFavoriteHotels((prevFavorites) =>
+      prevFavorites.filter((hotel) => hotel.id !== hotelId)
+    );
+  }
+
+  
 
   return (
     <>
@@ -84,9 +106,9 @@ export function Favorites() {
       {favoriteHotels ? (
             favoriteHotels.map((props, i) => (
         <article class="hotel-card">
-                <div class="card-image">
+                <div class="card-image-mod">
                     <p class="chip">{props.location}</p>
-                    <p class="chip"><img src={props.isFavorite ? filledHeart : heart} class="heart" onClick={() => removeOrAddToFavorites(props.id)} /></p>
+                    <p class="chip"><img src={filledHeart} class="heart" onClick={() => handleRemoveFromFavorites(props.id)} /></p>
                 </div>
                 <p class="text-middle">{props.name}</p>
                 <p class="text-small">{props.description}</p>

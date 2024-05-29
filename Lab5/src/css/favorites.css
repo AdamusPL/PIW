@@ -1,0 +1,21 @@
+:root{
+    --image-path1: url(/images/cards1.jpg);
+    --image-path2: url(/images/cards2.jpg);
+    --image-path3: url(/images/cards3.jpg);
+    --image-path4: url(/images/cards4.jpg);
+}
+
+
+
+.hotel-card:nth-child(1)>.card-image-mod{
+    background-image: var(--image-path1);
+}
+.hotel-card:nth-child(2)>.card-image-mod{
+    background-image: var(--image-path2);
+}
+.hotel-card:nth-child(3)>.card-image-mod{
+    background-image: var(--image-path3);
+}
+.hotel-card:nth-child(4)>.card-image-mod{
+    background-image: var(--image-path4);
+}
