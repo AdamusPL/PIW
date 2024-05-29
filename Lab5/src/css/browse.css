@@ -1,0 +1,51 @@
+#basket{
+    width: 30px;
+}
+
+.hero-details-mod{
+    display: flex;
+    justify-content: center;
+}
+
+.hero-section-mod{
+    display: flex;
+    padding-top: 150px;
+}
+
+.searchbar{
+    width: 60%;
+    padding: 12px;
+    border: 1px solid var(--primary-dark);
+    border-radius: var(--radius-medium);
+    background-color: transparent;
+    text-align: center;
+}
+
+.chip-view-offer {
+    background-color: var(--primary-light);
+    padding: 8px 16px;
+    border-radius: var(--radius-small);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    column-gap: 8px;
+}
+
+.heart{
+    width: 20px;
+}
+
+.card-image {
+    width: 100%;
+    border-radius: var(--radius-small);
+    height: 150px;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: cover;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+    padding: 1rem;
+}
