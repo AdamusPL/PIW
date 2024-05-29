@@ -2,8 +2,7 @@ import { useLocation } from 'react-router-dom';
 import '../css/hotel.css'
 import { Link } from 'react-router-dom';
 import { UserAuth } from '../context/AuthContext';
-import emailjs from "emailjs-com";
-import { useContext, useState } from 'react';
+import { useContext, useState, useRef } from 'react';
 import heart from '/images/heart.png'
 import filledHeart from '/images/heart_filled.png'
 import { FavoritesContext } from '../context/FavoritesContext';
@@ -21,30 +20,14 @@ function closeModal(){
 export function Hotel() {
     const location = useLocation();
     const [isFavorite, setIsFavorite] = useState(location.state.isFavorite);
+    const messageRef = useRef('');
+    const [infoMessage, setInfoMessage] = useState('');
 
     function sendEmail(e) {
         e.preventDefault();
-    
-        const serviceId = 'service_ayz663j';
-        const templateId = 'template_9vm6hpp';
-        const userId = 'hl_99HaUjiTg3T7q3';
-    
-        const template = {
-            owner : location.state.owner,
-            hotel_name : location.state.name,
-            message: message
-        }
-    
-        emailjs.send(serviceId, templateId, template, userId)
-            .then((response) => {
-                document.getElementById("info-email-send").innerText = "Email sent successfully";
-            })
-            .catch((error) => {
-                document.getElementById("info-email-send").innerText = "Error sending email";
-            });
-      }
-
-    const [message, setMessage] = useState('');
+        setInfoMessage("Email sent successfully");
+        messageRef.current.value = '';
+    }
 
     const {user, logOut} = UserAuth();
 
@@ -89,7 +72,7 @@ export function Hotel() {
         </article>
         <div class="hero-image-container-mod" style={heroImageStyle}>
             <p class="chip">Add to favorites
-                <img src={location.state.isFavorite ? filledHeart : heart} class="heart" onClick={handleFavoriteToggle} />
+                <img src={isFavorite ? filledHeart : heart} class="heart" onClick={handleFavoriteToggle} />
             </p>
         </div>
         <article class="hero-details-mod-2">
@@ -110,15 +93,18 @@ export function Hotel() {
     </section>
     <div id="middle">
     <dialog id="modal">
+        <div id="close-modal">
+            <button class="close-button" onClick={closeModal}>X</button>
+        </div>
         <p class="title-large">Contact</p>
         <p>You're contacting the {location.state.name} hotel:</p>
         <br></br>
-        <textarea value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
+        <textarea id="context-of-message" ref={messageRef}></textarea>
         <div id="button-row">
         <button class="nav-link px-2" onClick={closeModal}>Cancel</button>
         <button class="chip-view-offer" onClick={sendEmail}>Send<img id="mail" src="/images/mail.png" /></button>
         </div>
-        <p id="info-email-sent"></p>
+        <p id="info-email-sent">{infoMessage}</p>
     </dialog>
     </div>
     </>

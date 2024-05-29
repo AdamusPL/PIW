@@ -8,6 +8,21 @@
     padding: 50px;
 }
 
+#close-modal{
+    display: flex;
+    justify-content: end;
+}
+
+.close-button{
+    background: none;
+    border: none;     
+    padding: 0;      
+    margin: 0;       
+    font-size: 32px;  
+    cursor: pointer;  
+    outline: none;    
+}
+
 #button-row{
     display: flex;
     justify-content: end;
@@ -17,7 +32,7 @@
 textarea{
     resize: none;
     width: 1000px;
-    height: 350px;
+    height: 220px;
     border-radius: var(--radius-small);
 }
 
